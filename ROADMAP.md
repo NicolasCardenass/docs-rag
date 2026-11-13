@@ -1,0 +1,21 @@
+# Roadmap
+
+- [x] Monorepo structure (`backend/`, `frontend/`), tooling, README and roadmap
+- [ ] FastAPI skeleton with `/health` endpoint and pytest setup
+- [ ] Configuration with pydantic-settings and `.env.example`
+- [ ] Document ingestion: text extraction from PDF, TXT and Markdown
+- [ ] Chunking with overlap, with tests
+- [ ] Embeddings provider interface (mock, OpenAI, Ollama)
+- [ ] Vector store (ChromaDB) behind a repository layer
+- [ ] Endpoints to upload, list and delete documents
+- [ ] Top-k semantic search endpoint with scores
+- [ ] LLM provider interface (mock, OpenAI, Anthropic, Ollama)
+- [ ] `/chat` endpoint with RAG prompt and source citations
+- [ ] Streaming responses with Server-Sent Events
+- [ ] Frontend scaffold (Next.js)
+- [ ] Document upload UI
+- [ ] Chat UI with streaming and clickable citations
+- [ ] Docker and docker-compose
+- [ ] CI (ruff, mypy, pytest, frontend lint/build)
+- [ ] Evaluation script with a small question set
+- [ ] Final README
