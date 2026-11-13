@@ -16,6 +16,13 @@ uv run ruff format . # format
 uv run mypy          # type-check
 ```
 
+## Configuration
+
+Settings are read from environment variables prefixed with `DOCS_RAG_` or from a `backend/.env`
+file. Copy [`.env.example`](./.env.example) to `.env` to start; every value is optional. By default
+the app uses deterministic **mock** embedding and LLM providers, so it runs without API keys.
+Selecting a real provider without its API key fails fast at startup with a clear error.
+
 ## Running the API
 
 ```bash

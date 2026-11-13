@@ -15,3 +15,15 @@ def test_openapi_schema_lists_health_endpoint(client: TestClient) -> None:
 
     assert schema["info"]["title"] == "Docs RAG API"
     assert "/health" in schema["paths"]
+
+
+def test_cors_allows_configured_frontend_origin(client: TestClient) -> None:
+    response = client.options(
+        "/health",
+        headers={
+            "Origin": "http://localhost:3000",
+            "Access-Control-Request-Method": "GET",
+        },
+    )
+
+    assert response.headers["access-control-allow-origin"] == "http://localhost:3000"
