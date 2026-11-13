@@ -15,3 +15,12 @@ uv run ruff check .  # lint
 uv run ruff format . # format
 uv run mypy          # type-check
 ```
+
+## Running the API
+
+```bash
+uv run uvicorn docs_rag.main:app --reload
+```
+
+The API listens on <http://localhost:8000>. Interactive documentation is available at
+<http://localhost:8000/docs> (Swagger UI) and the health check at `GET /health`.

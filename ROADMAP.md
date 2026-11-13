@@ -1,7 +1,7 @@
 # Roadmap
 
 - [x] Monorepo structure (`backend/`, `frontend/`), tooling, README and roadmap
-- [ ] FastAPI skeleton with `/health` endpoint and pytest setup
+- [x] FastAPI skeleton with `/health` endpoint and pytest setup
 - [ ] Configuration with pydantic-settings and `.env.example`
 - [ ] Document ingestion: text extraction from PDF, TXT and Markdown
 - [ ] Chunking with overlap, with tests
