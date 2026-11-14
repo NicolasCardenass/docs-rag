@@ -9,11 +9,13 @@ requires-python = ">=3.12"
 dependencies = [
     "fastapi>=0.162.7",
     "pydantic-settings>=2.16.3",
+    "pypdf>=7.1.0",
     "uvicorn[standard]>=0.54.0",
 ]
 
 [dependency-groups]
 dev = [
+    "fpdf2>=2.9.0",
     "httpx2>=2.16.0",
     "mypy>=1.13",
     "pytest>=8.3",

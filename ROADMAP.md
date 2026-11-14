@@ -3,7 +3,7 @@
 - [x] Monorepo structure (`backend/`, `frontend/`), tooling, README and roadmap
 - [x] FastAPI skeleton with `/health` endpoint and pytest setup
 - [x] Configuration with pydantic-settings and `.env.example`
-- [ ] Document ingestion: text extraction from PDF, TXT and Markdown
+- [x] Document ingestion: text extraction from PDF, TXT and Markdown
 - [ ] Chunking with overlap, with tests
 - [ ] Embeddings provider interface (mock, OpenAI, Ollama)
 - [ ] Vector store (ChromaDB) behind a repository layer
