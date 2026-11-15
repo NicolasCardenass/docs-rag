@@ -31,3 +31,22 @@ uv run uvicorn docs_rag.main:app --reload
 
 The API listens on <http://localhost:8000>. Interactive documentation is available at
 <http://localhost:8000/docs> (Swagger UI) and the health check at `GET /health`.
+
+## API
+
+| Method   | Path              | Description                                                 |
+| -------- | ----------------- | ----------------------------------------------------------- |
+| `GET`    | `/health`         | Liveness check with the running version                     |
+| `POST`   | `/documents`      | Upload a PDF, TXT or Markdown file (multipart field `file`) |
+| `GET`    | `/documents`      | List indexed documents, newest first                        |
+| `GET`    | `/documents/{id}` | Get one document's metadata                                 |
+| `DELETE` | `/documents/{id}` | Delete a document and all of its chunks                     |
+
+Example:
+
+```bash
+curl -F file=@manual.pdf http://localhost:8000/documents
+```
+
+Uploaded files are not stored: their text is chunked and embedded, chunks go to a ChromaDB index
+in `DOCS_RAG_DATA_DIR/index` and document metadata to `DOCS_RAG_DATA_DIR/documents.json`.

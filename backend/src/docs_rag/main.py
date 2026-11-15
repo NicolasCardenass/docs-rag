@@ -9,8 +9,26 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from docs_rag import __version__
-from docs_rag.api import health
+from docs_rag.api import documents, health
 from docs_rag.config import Settings, get_settings
+from docs_rag.documents import DocumentRepository, DocumentService
+from docs_rag.embeddings import create_embedder
+from docs_rag.store import ChromaVectorStore
+
+
+def build_document_service(settings: Settings) -> DocumentService:
+    """Wire the ingestion pipeline from settings."""
+    embedder = create_embedder(settings)
+    store = ChromaVectorStore.persistent(settings.data_dir / "index", embedder.name)
+    repository = DocumentRepository(settings.data_dir / "documents.json")
+    return DocumentService(
+        repository,
+        store,
+        embedder,
+        chunk_size=settings.chunk_size,
+        chunk_overlap=settings.chunk_overlap,
+        max_upload_bytes=settings.max_upload_bytes,
+    )
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -29,6 +47,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         ),
     )
     app.state.settings = settings
+    app.state.document_service = build_document_service(settings)
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -36,6 +55,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         allow_headers=["*"],
     )
     app.include_router(health.router)
+    app.include_router(documents.router)
     return app
 
 
