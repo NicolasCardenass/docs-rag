@@ -8,7 +8,7 @@
 - [x] Embeddings provider interface (mock, OpenAI, Ollama)
 - [x] Vector store (ChromaDB) behind a repository layer
 - [x] Endpoints to upload, list and delete documents
-- [ ] Top-k semantic search endpoint with scores
+- [x] Top-k semantic search endpoint with scores
 - [ ] LLM provider interface (mock, OpenAI, Anthropic, Ollama)
 - [ ] `/chat` endpoint with RAG prompt and source citations
 - [ ] Streaming responses with Server-Sent Events

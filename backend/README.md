@@ -34,13 +34,14 @@ The API listens on <http://localhost:8000>. Interactive documentation is availab
 
 ## API
 
-| Method   | Path              | Description                                                 |
-| -------- | ----------------- | ----------------------------------------------------------- |
-| `GET`    | `/health`         | Liveness check with the running version                     |
-| `POST`   | `/documents`      | Upload a PDF, TXT or Markdown file (multipart field `file`) |
-| `GET`    | `/documents`      | List indexed documents, newest first                        |
-| `GET`    | `/documents/{id}` | Get one document's metadata                                 |
-| `DELETE` | `/documents/{id}` | Delete a document and all of its chunks                     |
+| Method   | Path              | Description                                                            |
+| -------- | ----------------- | ---------------------------------------------------------------------- |
+| `GET`    | `/health`         | Liveness check with the running version                                |
+| `POST`   | `/documents`      | Upload a PDF, TXT or Markdown file (multipart field `file`)            |
+| `GET`    | `/documents`      | List indexed documents, newest first                                   |
+| `GET`    | `/documents/{id}` | Get one document's metadata                                            |
+| `POST`   | `/search`         | Semantic search: `{"query": "...", "top_k": 4, "document_ids": [...]}` |
+| `DELETE` | `/documents/{id}` | Delete a document and all of its chunks                                |
 
 Example:
 
