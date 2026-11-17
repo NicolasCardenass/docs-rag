@@ -11,10 +11,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from docs_rag import __version__
-from docs_rag.api import documents, health, search
+from docs_rag.api import chat, documents, health, search
+from docs_rag.chat import ChatService
 from docs_rag.config import Settings, get_settings
 from docs_rag.documents import DocumentRepository, DocumentService
 from docs_rag.embeddings import create_embedder
+from docs_rag.llm import create_chat_model
 from docs_rag.retrieval import Retriever
 from docs_rag.store import ChromaVectorStore
 
@@ -23,6 +25,7 @@ from docs_rag.store import ChromaVectorStore
 class Services:
     documents: DocumentService
     retriever: Retriever
+    chat: ChatService
 
 
 def build_services(settings: Settings) -> Services:
@@ -42,7 +45,9 @@ def build_services(settings: Settings) -> Services:
         chunk_overlap=settings.chunk_overlap,
         max_upload_bytes=settings.max_upload_bytes,
     )
-    return Services(documents=documents, retriever=Retriever(embedder, store, settings.top_k))
+    retriever = Retriever(embedder, store, settings.top_k)
+    chat = ChatService(retriever, create_chat_model(settings))
+    return Services(documents=documents, retriever=retriever, chat=chat)
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -64,6 +69,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     services = build_services(settings)
     app.state.document_service = services.documents
     app.state.retriever = services.retriever
+    app.state.chat_service = services.chat
     app.add_middleware(
         CORSMiddleware,
         allow_origins=settings.cors_origins,
@@ -73,6 +79,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health.router)
     app.include_router(documents.router)
     app.include_router(search.router)
+    app.include_router(chat.router)
     return app
 
 

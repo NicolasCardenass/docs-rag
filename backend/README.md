@@ -41,6 +41,7 @@ The API listens on <http://localhost:8000>. Interactive documentation is availab
 | `GET`    | `/documents`      | List indexed documents, newest first                                   |
 | `GET`    | `/documents/{id}` | Get one document's metadata                                            |
 | `POST`   | `/search`         | Semantic search: `{"query": "...", "top_k": 4, "document_ids": [...]}` |
+| `POST`   | `/chat`           | Ask a question: answer with `[n]` citations and the source passages    |
 | `DELETE` | `/documents/{id}` | Delete a document and all of its chunks                                |
 
 Example:

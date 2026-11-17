@@ -10,7 +10,7 @@
 - [x] Endpoints to upload, list and delete documents
 - [x] Top-k semantic search endpoint with scores
 - [x] LLM provider interface (mock, OpenAI, Anthropic, Ollama)
-- [ ] `/chat` endpoint with RAG prompt and source citations
+- [x] `/chat` endpoint with RAG prompt and source citations
 - [ ] Streaming responses with Server-Sent Events
 - [ ] Frontend scaffold (Next.js)
 - [ ] Document upload UI
