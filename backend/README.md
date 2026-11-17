@@ -42,6 +42,7 @@ The API listens on <http://localhost:8000>. Interactive documentation is availab
 | `GET`    | `/documents/{id}` | Get one document's metadata                                            |
 | `POST`   | `/search`         | Semantic search: `{"query": "...", "top_k": 4, "document_ids": [...]}` |
 | `POST`   | `/chat`           | Ask a question: answer with `[n]` citations and the source passages    |
+| `POST`   | `/chat/stream`    | Same as `/chat`, streamed as Server-Sent Events                        |
 | `DELETE` | `/documents/{id}` | Delete a document and all of its chunks                                |
 
 Example:
@@ -52,3 +53,21 @@ curl -F file=@manual.pdf http://localhost:8000/documents
 
 Uploaded files are not stored: their text is chunked and embedded, chunks go to a ChromaDB index
 in `DOCS_RAG_DATA_DIR/index` and document metadata to `DOCS_RAG_DATA_DIR/documents.json`.
+
+### Streaming answers
+
+`POST /chat/stream` sends [Server-Sent Events](https://developer.mozilla.org/docs/Web/API/Server-sent_events)
+so the answer appears while it is being generated:
+
+| Event     | Data                                                                  |
+| --------- | --------------------------------------------------------------------- |
+| `sources` | The numbered passages used as context (sent first)                    |
+| `token`   | `{"text": "..."}`, a fragment of the answer (repeated)                |
+| `done`    | `{"answer": "...", "cited": [1, 2], "model": "..."}`                  |
+| `error`   | `{"detail": "..."}` if the provider fails after streaming has started |
+
+```bash
+curl -N -X POST http://localhost:8000/chat/stream \
+  -H "Content-Type: application/json" \
+  -d '{"question": "What do inverters do?"}'
+```

@@ -11,7 +11,7 @@
 - [x] Top-k semantic search endpoint with scores
 - [x] LLM provider interface (mock, OpenAI, Anthropic, Ollama)
 - [x] `/chat` endpoint with RAG prompt and source citations
-- [ ] Streaming responses with Server-Sent Events
+- [x] Streaming responses with Server-Sent Events
 - [ ] Frontend scaffold (Next.js)
 - [ ] Document upload UI
 - [ ] Chat UI with streaming and clickable citations

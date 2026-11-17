@@ -1,7 +1,7 @@
 """Retrieval-augmented question answering."""
 
 import re
-from collections.abc import Sequence
+from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
 
 from docs_rag.llm import ChatModel, Message
@@ -91,6 +91,24 @@ class ChatService:
 
         text = self._model.generate(build_messages(question, results), max_tokens=self._max_tokens)
         return ChatAnswer(text, make_sources(results, text), self.model_name)
+
+    def stream(self, question: str, results: Sequence[SearchResult]) -> Iterator[str]:
+        """Stream the answer for already retrieved ``results``.
+
+        Retrieval is a separate step so callers can send the sources to the
+        client before the (slower) generation starts.
+        """
+        return stream_answer_tokens(self._model, question, results, self._max_tokens)
+
+
+def stream_answer_tokens(
+    model: ChatModel, question: str, results: Sequence[SearchResult], max_tokens: int
+) -> Iterator[str]:
+    """Yield the answer as text fragments (the fixed reply when there is no context)."""
+    if not results:
+        yield NO_CONTEXT_ANSWER
+        return
+    yield from model.stream(build_messages(question, results), max_tokens=max_tokens)
 
 
 def make_sources(results: Sequence[SearchResult], answer: str) -> list[Source]:
