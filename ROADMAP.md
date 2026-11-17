@@ -12,7 +12,7 @@
 - [x] LLM provider interface (mock, OpenAI, Anthropic, Ollama)
 - [x] `/chat` endpoint with RAG prompt and source citations
 - [x] Streaming responses with Server-Sent Events
-- [ ] Frontend scaffold (Next.js)
+- [x] Frontend scaffold (Next.js)
 - [ ] Document upload UI
 - [ ] Chat UI with streaming and clickable citations
 - [ ] Docker and docker-compose
