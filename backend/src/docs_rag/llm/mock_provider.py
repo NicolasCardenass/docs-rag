@@ -6,8 +6,12 @@ from collections.abc import Iterator, Sequence
 from docs_rag.llm.base import Message
 
 # Context passages are formatted as "[1] text" by the RAG prompt.
-# A passage runs until the next "[n]" marker, a blank line or the end.
-_SOURCE = re.compile(r"^\[(\d+)\]\s*(.+?)(?=^\[\d+\]|\n\s*\n|\Z)", re.MULTILINE | re.DOTALL)
+# A passage runs until the next "[n]" marker, a blank line or the end. An
+# optional "(source: ..., page n)" header after the marker is skipped.
+_SOURCE = re.compile(
+    r"^\[(\d+)\][ \t]*(?:\(source:[^\n]*\)[ \t]*\n)?(.+?)(?=^\[\d+\]|\n\s*\n|\Z)",
+    re.MULTILINE | re.DOTALL,
+)
 _SENTENCE_END = re.compile(r"(?<=[.!?])\s")
 
 

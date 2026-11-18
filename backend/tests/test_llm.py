@@ -6,6 +6,7 @@ import httpx2
 import openai
 import pytest
 
+from docs_rag.chat import build_messages
 from docs_rag.config import Settings
 from docs_rag.llm import (
     AnthropicChatModel,
@@ -17,6 +18,7 @@ from docs_rag.llm import (
     create_chat_model,
 )
 from docs_rag.llm.base import split_system
+from docs_rag.store import SearchResult
 
 MESSAGES = [
     Message("system", "Answer using only the context."),
@@ -52,6 +54,16 @@ class TestMockChatModel:
             "According to the documents: Solar panels make electricity. [1] "
             "Inverters convert DC to AC. [2]"
         )
+
+    def test_ignores_source_headers_from_the_rag_prompt(self) -> None:
+        prompt = build_messages(
+            "What do inverters do?",
+            [SearchResult("d:0", "d", "solar.txt", 2, 0, "Inverters convert DC to AC. More.", 0.5)],
+        )
+
+        answer = MockChatModel().generate(prompt)
+
+        assert answer == "According to the documents: Inverters convert DC to AC. [1]"
 
     def test_stream_reassembles_into_full_answer(self) -> None:
         model = MockChatModel()
