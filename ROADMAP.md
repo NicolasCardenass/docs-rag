@@ -14,7 +14,7 @@
 - [x] Streaming responses with Server-Sent Events
 - [x] Frontend scaffold (Next.js)
 - [x] Document upload UI
-- [ ] Chat UI with streaming and clickable citations
+- [x] Chat UI with streaming and clickable citations
 - [ ] Docker and docker-compose
 - [ ] CI (ruff, mypy, pytest, frontend lint/build)
 - [ ] Evaluation script with a small question set

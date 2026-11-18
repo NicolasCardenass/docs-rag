@@ -1,3 +1,5 @@
+import { parseSSE } from "./sse";
+
 /**
  * Typed client for the Docs RAG backend API.
  * Types mirror the Pydantic models exposed in the API's OpenAPI schema.
@@ -89,4 +91,49 @@ export function uploadDocument(file: File): Promise<DocumentRecord> {
 
 export function deleteDocument(id: string): Promise<void> {
   return request<void>(`/documents/${encodeURIComponent(id)}`, { method: "DELETE" });
+}
+
+export type ChatStreamEvent =
+  | { type: "sources"; sources: Source[] }
+  | { type: "token"; text: string }
+  | { type: "done"; answer: string; cited: number[]; model: string }
+  | { type: "error"; detail: string };
+
+export type ChatRequest = {
+  question: string;
+  document_ids?: string[];
+  top_k?: number;
+};
+
+/** Ask a question and receive the answer as it is generated. */
+export async function* streamChat(
+  body: ChatRequest,
+  signal?: AbortSignal,
+): AsyncGenerator<ChatStreamEvent> {
+  const response = await fetch(`${API_URL}/chat/stream`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+    body: JSON.stringify(body),
+    signal,
+  });
+  if (!response.ok || !response.body) {
+    throw new ApiError(response.status, await errorMessage(response));
+  }
+  for await (const { event, data } of parseSSE(response.body)) {
+    const payload: unknown = JSON.parse(data);
+    switch (event) {
+      case "sources":
+        yield { type: "sources", sources: payload as Source[] };
+        break;
+      case "token":
+        yield { type: "token", text: (payload as { text: string }).text };
+        break;
+      case "done":
+        yield { type: "done", ...(payload as { answer: string; cited: number[]; model: string }) };
+        break;
+      case "error":
+        yield { type: "error", detail: (payload as { detail: string }).detail };
+        break;
+    }
+  }
 }
