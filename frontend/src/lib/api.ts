@@ -76,3 +76,17 @@ export async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export function getHealth(signal?: AbortSignal): Promise<Health> {
   return request<Health>("/health", { signal });
 }
+
+export function listDocuments(signal?: AbortSignal): Promise<DocumentRecord[]> {
+  return request<DocumentRecord[]>("/documents", { signal });
+}
+
+export function uploadDocument(file: File): Promise<DocumentRecord> {
+  const body = new FormData();
+  body.append("file", file);
+  return request<DocumentRecord>("/documents", { method: "POST", body });
+}
+
+export function deleteDocument(id: string): Promise<void> {
+  return request<void>(`/documents/${encodeURIComponent(id)}`, { method: "DELETE" });
+}

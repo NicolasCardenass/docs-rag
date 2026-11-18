@@ -13,7 +13,7 @@
 - [x] `/chat` endpoint with RAG prompt and source citations
 - [x] Streaming responses with Server-Sent Events
 - [x] Frontend scaffold (Next.js)
-- [ ] Document upload UI
+- [x] Document upload UI
 - [ ] Chat UI with streaming and clickable citations
 - [ ] Docker and docker-compose
 - [ ] CI (ruff, mypy, pytest, frontend lint/build)
