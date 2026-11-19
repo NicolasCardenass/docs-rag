@@ -1,5 +1,7 @@
 # Docs RAG
 
+[![CI](https://github.com/NicolasCardenass/docs-rag/actions/workflows/ci.yml/badge.svg)](https://github.com/NicolasCardenass/docs-rag/actions/workflows/ci.yml)
+
 > 🇧🇷 Resumo em português no [final deste arquivo](#resumo-em-português).
 
 **Chat with your documents.** Upload PDFs, text or Markdown files and ask questions in natural

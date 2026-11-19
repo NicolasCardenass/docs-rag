@@ -16,6 +16,6 @@
 - [x] Document upload UI
 - [x] Chat UI with streaming and clickable citations
 - [x] Docker and docker-compose
-- [ ] CI (ruff, mypy, pytest, frontend lint/build)
+- [x] CI (ruff, mypy, pytest, frontend lint/build)
 - [ ] Evaluation script with a small question set
 - [ ] Final README
