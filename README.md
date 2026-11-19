@@ -52,7 +52,20 @@ docs-rag/
 
 ## Getting started
 
-See [backend/README.md](./backend/README.md) for development instructions.
+### With Docker (recommended)
+
+```bash
+docker compose up --build
+```
+
+Open <http://localhost:3000> for the app and <http://localhost:8000/docs> for the API docs. Data is
+kept in the `docs-rag-data` volume. The app uses the offline mock providers by default; to use a
+real model, copy `backend/.env.example` to `backend/.env`, set the provider and API key, and run the
+command again.
+
+### Local development
+
+See [backend/README.md](./backend/README.md) and [frontend/README.md](./frontend/README.md).
 
 ## License
 

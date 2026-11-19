@@ -1,0 +1,33 @@
+# Run the whole app with: docker compose up --build
+# Frontend: http://localhost:3000 · API: http://localhost:8000/docs
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      # Optional: provider settings and API keys (see backend/.env.example).
+      - path: ./backend/.env
+        required: false
+    environment:
+      DOCS_RAG_CORS_ORIGINS: '["http://localhost:3000"]'
+    volumes:
+      - docs-rag-data:/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Used by the browser, so it must be reachable from the host.
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  docs-rag-data:
