@@ -71,3 +71,23 @@ curl -N -X POST http://localhost:8000/chat/stream \
   -H "Content-Type: application/json" \
   -d '{"question": "What do inverters do?"}'
 ```
+
+## Evaluation
+
+[`eval/`](./eval) contains a small labelled set: three synthetic documents and questions annotated
+with the document that answers them and keywords the answer should contain. The evaluation script
+indexes the corpus into a temporary directory with the configured providers and reports:
+
+- **Hit rate@k**: share of questions whose expected document is among the top-k retrieved chunks.
+- **MRR** (mean reciprocal rank): rewards ranking the expected document first.
+- **Citation accuracy**: share of answers that cite a passage from the expected document.
+- **Keyword coverage**: share of expected keywords present in the answer.
+
+```bash
+uv run python -m docs_rag.evaluation --top-k 3 --json report.json --min-hit-rate 0.8
+```
+
+With the offline mock providers (word-overlap embeddings and an extractive "model"), retrieval
+already finds every expected document, but keyword coverage is low because the mock only quotes the
+first sentence of each passage. Running the same command with a real embedding model and LLM shows
+how much each component improves the results.

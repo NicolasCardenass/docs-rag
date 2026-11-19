@@ -17,5 +17,5 @@
 - [x] Chat UI with streaming and clickable citations
 - [x] Docker and docker-compose
 - [x] CI (ruff, mypy, pytest, frontend lint/build)
-- [ ] Evaluation script with a small question set
+- [x] Evaluation script with a small question set
 - [ ] Final README

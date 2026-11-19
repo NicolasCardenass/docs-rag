@@ -14,6 +14,10 @@ class Retriever:
         self._store = store
         self.default_top_k = default_top_k
 
+    @property
+    def embedder_name(self) -> str:
+        return self._embedder.name
+
     def search(
         self,
         query: str,

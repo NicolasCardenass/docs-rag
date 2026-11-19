@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What does an inverter do in a solar installation?",
+    "expected_source": "solar-power.md",
+    "expected_keywords": ["direct current", "alternating current"]
+  },
+  {
+    "question": "What are solar cells usually made of?",
+    "expected_source": "solar-power.md",
+    "expected_keywords": ["silicon"]
+  },
+  {
+    "question": "Why is voltage stepped up for long-distance transmission?",
+    "expected_source": "power-transformers.md",
+    "expected_keywords": ["current", "losses"]
+  },
+  {
+    "question": "Which transformer losses grow with the load current?",
+    "expected_source": "power-transformers.md",
+    "expected_keywords": ["copper losses"]
+  },
+  {
+    "question": "How are chunks retrieved at question time in RAG?",
+    "expected_source": "rag-overview.md",
+    "expected_keywords": ["similar", "vector"]
+  },
+  {
+    "question": "Why does retrieval-augmented generation reduce hallucinations?",
+    "expected_source": "rag-overview.md",
+    "expected_keywords": ["grounded", "retrieved"]
+  }
+]
