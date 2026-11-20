@@ -18,4 +18,4 @@
 - [x] Docker and docker-compose
 - [x] CI (ruff, mypy, pytest, frontend lint/build)
 - [x] Evaluation script with a small question set
-- [ ] Final README
+- [x] Final README
