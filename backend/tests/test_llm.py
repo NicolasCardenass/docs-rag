@@ -47,12 +47,29 @@ def test_split_system_separates_instructions() -> None:
 
 
 class TestMockChatModel:
-    def test_quotes_first_sentence_of_sources_with_citations(self) -> None:
+    def test_falls_back_to_first_sentences_when_question_has_no_overlap(self) -> None:
         answer = MockChatModel().generate(MESSAGES)
 
+        assert answer == "Solar panels make electricity. [1] Inverters convert DC to AC. [2]"
+
+    def test_picks_the_sentence_that_best_matches_the_question(self) -> None:
+        passage = (
+            "# Power transformers\n\nA transformer has two windings. A step-up transformer "
+            "increases voltage for long-distance transmission, reducing losses."
+        )
+        prompt = build_messages(
+            "Why is voltage stepped up for long-distance transmission?",
+            [
+                SearchResult("a:0", "a", "solar.md", 1, 0, "Solar panels make electricity.", 0.6),
+                SearchResult("b:0", "b", "power.md", 1, 0, passage, 0.5),
+            ],
+        )
+
+        answer = MockChatModel().generate(prompt)
+
         assert answer == (
-            "According to the documents: Solar panels make electricity. [1] "
-            "Inverters convert DC to AC. [2]"
+            "A step-up transformer increases voltage for long-distance transmission, "
+            "reducing losses. [2]"
         )
 
     def test_ignores_source_headers_from_the_rag_prompt(self) -> None:
@@ -63,7 +80,7 @@ class TestMockChatModel:
 
         answer = MockChatModel().generate(prompt)
 
-        assert answer == "According to the documents: Inverters convert DC to AC. [1]"
+        assert answer == "Inverters convert DC to AC. [1]"
 
     def test_stream_reassembles_into_full_answer(self) -> None:
         model = MockChatModel()
